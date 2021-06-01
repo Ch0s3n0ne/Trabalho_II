@@ -1,6 +1,6 @@
 # Trabalho_II
 
-## Sistema_completo.ino
+## Sistema completo
 
 Importante ter o serial monitor ativo durante a abertura de forma a retirar o ip do website inicializado pelo Arduino.
 
