@@ -14,7 +14,7 @@ int array_register[100];
 int array_tipo[100];
 int online=1;
 int counter=0;
-
+//--------------inicialização dos sons que irão ser utilizados pelo buzzer mais à frente
 #define NOTE_B0  31
 #define NOTE_C1  33
 #define NOTE_CS1 35
@@ -230,7 +230,8 @@ int notes = sizeof(melody) / sizeof(melody[0]) / 2;
 int wholenote = (60000 * 4) / tempo;
 int divider = 0, noteDuration = 0;
 
-
+//-------------------fim da defenição das músicas do buzzer------------------------------------------
+//-------------------defenições de pinos-------------------------------------------------------------
 
 const int rs=12, en=11,d4 = 5, d5 = 4, d6 = 3, d7 = 2;
 int sensorPin = A1;    // select the input pin for the potentiometer
@@ -239,7 +240,7 @@ int ledPin = 13;      // select the pin for the LED
 int sensorValue = 0;
 int statusvalue = 0;
 int buzzer = 8 ;// variable to store the value coming from the sensor
-LiquidCrystal lcd(rs, en, d4, d5, d6, d7);
+LiquidCrystal lcd(rs, en, d4, d5, d6, d7); //inicialização dos pinos do LCD
 
 
 //------------------------------------------fim das defenições--------------------------------------------
@@ -277,7 +278,7 @@ void setup() {
 //---------------------------------fim do setup---------------------------------------------------
 void loop() {
 
- //código interface
+ //--------------------------------código interface----------------------------
   WiFiClient client = server.available();   // listen for incoming clients
 if (client) {                             // if you get a client,
     Serial.println("new client");           // print a message out the serial port
@@ -290,7 +291,7 @@ if (client) {                             // if you get a client,
 // if the current line is blank, you got two newline characters in a row.
           // that's the end of the client HTTP request, so send a response:
           if (currentLine.length() == 0) {
-
+          //myTime dá-me o tempo em miliseguntos desde a inicialização do Arduino, é o que nos permite realizar as TimeStamps no website
             myTime=millis();
             int j=0;
             while(array_register[j]!=0){
@@ -300,7 +301,7 @@ if (client) {                             // if you get a client,
             
             // HTTP headers always start with a response code (e.g. HTTP/1.1 200 OK)
             // and a content-type so the client knows what's coming, then a blank line:
-            //código HTML com funções java script
+//----------------------------código HTML com funções java script------------------------------------------------------
             client.println("HTTP/1.1 200 OK");
             client.println("Content-type:text/html");
             client.println("Refresh: 15");
@@ -483,8 +484,8 @@ if (client) {                             // if you get a client,
     client.stop();
     Serial.println("client disonnected");
   }
-
-//------------------------------inicio código do sensor--------------------------------
+//------------------fim do código html e funções de resposta do servidor--------------
+//------------------------------inicio código dos sensores--------------------------------
 
     unsigned char i, j ;
     // read the value from the sensor:
@@ -493,6 +494,7 @@ if (client) {                             // if you get a client,
     Serial.println("");
     Serial.print("status value: ");
     Serial.println(statusvalue);
+    //verificação se o atual estado do sistema é offline
     if (statusvalue > 1000)
     {
         while(online==0){
@@ -521,7 +523,7 @@ if (client) {                             // if you get a client,
       lcd.setCursor(0,1);
       lcd.print(" ");
       lcd.setCursor(0,1);
-      lcd.print("Tapado              ");
+      lcd.print("Tapado");
       
       myTime = millis();
       array_register[counter]=myTime;
